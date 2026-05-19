@@ -94,21 +94,21 @@ body::before {
 
 .welcome.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
-/* Heart rain */
-.heart {
+/* Orchid rain */
+.orchid-petal {
   position: absolute;
   pointer-events: none;
-  animation: heartFall linear infinite;
+  animation: orchidFall linear infinite;
   filter: drop-shadow(0 2px 8px rgba(196, 144, 213, 0.4));
   will-change: transform, opacity;
 }
 
-@keyframes heartFall {
+@keyframes orchidFall {
   0% { transform: translateY(-15vh) translateX(0) rotate(0deg); opacity: 0; }
   8% { opacity: 0.9; }
-  50% { transform: translateY(50vh) translateX(35px) rotate(15deg); }
+  50% { transform: translateY(50vh) translateX(35px) rotate(120deg); }
   92% { opacity: 0.9; }
-  100% { transform: translateY(115vh) translateX(-25px) rotate(-15deg); opacity: 0; }
+  100% { transform: translateY(115vh) translateX(-25px) rotate(280deg); opacity: 0; }
 }
 
 /* Twinkling stars in welcome */
@@ -955,7 +955,6 @@ body::before {
           yeh orchid bhi <em>sharma</em> jaaye. ✿
         </p>
         <span class="divider-leaf"></span>
-        <p class="signature">— with love —</p>
         <span class="signature-line">sirf tumhare liye</span>
       </div>
     </div>
@@ -1206,25 +1205,34 @@ body::before {
 </button>
 
 <script>
-// ========== HEART RAIN (purples + pinks mix for cool palette) ==========
+// ========== ORCHID RAIN (purples + pinks mix for cool palette) ==========
 const welcome = document.getElementById('welcome');
-const heartColors = ['#C490D5', '#8A4FA8', '#E89AB8', '#B088C0', '#F5B5C8', '#D4A574', '#FFA5C0', '#C8A0D8'];
+const orchidColors = ['#C490D5', '#8A4FA8', '#E89AB8', '#B088C0', '#F5B5C8', '#D4A574', '#FFA5C0', '#C8A0D8'];
 
-function createHeart() {
-  const h = document.createElement('div');
-  h.className = 'heart';
-  const size = 14 + Math.random() * 18;
-  h.style.width = size + 'px';
-  h.style.height = size + 'px';
-  const color = heartColors[Math.floor(Math.random() * heartColors.length)];
-  h.innerHTML = `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
-    <path d="M10 17.5 C 10 17.5, 2.5 12, 2.5 7 C 2.5 4, 4.5 2, 7 2 C 8.5 2, 9.5 3, 10 4.2 C 10.5 3, 11.5 2, 13 2 C 15.5 2, 17.5 4, 17.5 7 C 17.5 12, 10 17.5, 10 17.5 Z" fill="${color}"/>
+function createOrchid() {
+  const o = document.createElement('div');
+  o.className = 'orchid-petal';
+  const size = 16 + Math.random() * 22;
+  o.style.width = size + 'px';
+  o.style.height = size + 'px';
+  const color = orchidColors[Math.floor(Math.random() * orchidColors.length)];
+  const lip = '#5A2A6E';
+  o.innerHTML = `<svg viewBox="-30 -30 60 60" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+    <g opacity="0.95">
+      <ellipse cx="0" cy="-18" rx="7" ry="14" fill="${color}" stroke="${lip}" stroke-width="0.4"/>
+      <ellipse cx="-18" cy="-4" rx="13" ry="8" fill="${color}" stroke="${lip}" stroke-width="0.4" transform="rotate(-15 -18 -4)"/>
+      <ellipse cx="18" cy="-4" rx="13" ry="8" fill="${color}" stroke="${lip}" stroke-width="0.4" transform="rotate(15 18 -4)"/>
+      <ellipse cx="-10" cy="14" rx="7" ry="13" fill="${color}" stroke="${lip}" stroke-width="0.4" transform="rotate(-28 -10 14)"/>
+      <ellipse cx="10" cy="14" rx="7" ry="13" fill="${color}" stroke="${lip}" stroke-width="0.4" transform="rotate(28 10 14)"/>
+      <ellipse cx="0" cy="0" rx="4" ry="6" fill="${lip}" opacity="0.85"/>
+      <circle cx="0" cy="-1" r="1.4" fill="#FFD27A"/>
+    </g>
   </svg>`;
-  h.style.left = Math.random() * 100 + 'vw';
-  h.style.opacity = 0.5 + Math.random() * 0.4;
-  h.style.animationDuration = (5 + Math.random() * 7) + 's';
-  h.style.animationDelay = -Math.random() * 8 + 's';
-  return h;
+  o.style.left = Math.random() * 100 + 'vw';
+  o.style.opacity = 0.5 + Math.random() * 0.4;
+  o.style.animationDuration = (6 + Math.random() * 8) + 's';
+  o.style.animationDelay = -Math.random() * 8 + 's';
+  return o;
 }
 
 // Stars in welcome
@@ -1243,19 +1251,19 @@ function createStar() {
 }
 
 const isMobile = window.innerWidth < 600;
-const initialHearts = isMobile ? 20 : 35;
-for (let i = 0; i < initialHearts; i++) welcome.appendChild(createHeart());
+const initialOrchids = isMobile ? 18 : 30;
+for (let i = 0; i < initialOrchids; i++) welcome.appendChild(createOrchid());
 
 // add twinkling stars
 const starCount = isMobile ? 18 : 30;
 for (let i = 0; i < starCount; i++) welcome.appendChild(createStar());
 
-const heartInterval = setInterval(() => {
+const orchidInterval = setInterval(() => {
   if (welcome.classList.contains('hidden')) return;
-  const h = createHeart();
-  welcome.appendChild(h);
-  setTimeout(() => h.remove(), 13000);
-}, isMobile ? 600 : 400);
+  const o = createOrchid();
+  welcome.appendChild(o);
+  setTimeout(() => o.remove(), 14000);
+}, isMobile ? 700 : 500);
 
 // ========== CARD OPENING ==========
 const openBtn = document.getElementById('openBtn');
@@ -1275,7 +1283,7 @@ openBtn.addEventListener('click', async () => {
     musicBtn.classList.add('visible');
     musicBtn.classList.add('playing');
   }, 2400);
-  setTimeout(() => clearInterval(heartInterval), 1500);
+  setTimeout(() => clearInterval(orchidInterval), 1500);
   setTimeout(addAmbientParticles, 2000);
 });
 
