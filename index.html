@@ -785,19 +785,20 @@ body::before {
 
 .music-hint {
   position: fixed;
-  top: 4.4rem;
-  right: 1.5rem;
+  top: 1.2rem;
+  left: 50%;
   font-family: 'Dancing Script', cursive;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   color: var(--cream);
   text-shadow: 0 1px 8px rgba(58, 24, 56, 0.55), 0 0 18px rgba(212, 165, 116, 0.35);
   letter-spacing: 0.02em;
   pointer-events: none;
   z-index: 49;
   opacity: 0;
-  transform: translateY(-6px);
+  transform: translate(-50%, -6px);
   transition: opacity 1.2s ease, transform 1.2s ease;
   white-space: nowrap;
+  text-align: center;
 }
 
 .music-hint.visible {
@@ -812,8 +813,8 @@ body::before {
 }
 
 @keyframes hintFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -6px); }
 }
 
 /* ============== RESPONSIVE ============== */
@@ -954,7 +955,7 @@ body::before {
 
   /* Music toggle smaller */
   .music-toggle { top: 1rem; right: 1rem; padding: 0.45rem 1rem; font-size: 0.75rem; }
-  .music-hint { top: 3.4rem; right: 1rem; font-size: 0.95rem; }
+  .music-hint { top: 0.7rem; left: 50%; font-size: 1.05rem; }
 }
 
 /* ============== TINY PHONES (iPhone SE etc.) ============== */
