@@ -651,15 +651,29 @@ body::before {
 }
 
 .divider-leaf::after {
-  content: '✿';
+  content: '✿  ✦  ✿';
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   background: var(--card-bg);
-  padding: 0 0.5rem;
+  padding: 0 0.55rem;
   color: var(--rose-deep);
   font-size: 0.85rem;
+  letter-spacing: 0.15em;
+}
+
+.floral-spray {
+  display: block;
+  width: 78%;
+  max-width: 200px;
+  height: auto;
+  margin: -0.2rem auto 0.5rem;
+  opacity: 0.95;
+}
+.floral-spray.top { margin-top: -0.1rem; }
+@media (max-width: 700px) {
+  .floral-spray { width: 70%; max-width: 170px; margin: 0 auto 0.3rem; }
 }
 
 .signature {
@@ -1087,6 +1101,53 @@ body::before {
 
       <div class="message-content">
         <div class="msg-mark">a little note</div>
+
+        <!-- Floral spray above greeting -->
+        <svg class="floral-spray top" viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#7A9070" stroke-width="0.7" fill="none" stroke-linecap="round">
+            <path d="M10 30 Q30 22, 60 18 Q90 22, 110 30"/>
+            <path d="M30 24 q-4 -4 -8 -3"/>
+            <path d="M90 24 q4 -4 8 -3"/>
+            <path d="M60 18 q0 -6 -3 -10"/>
+            <path d="M60 18 q0 -6 3 -10"/>
+          </g>
+          <!-- leaves -->
+          <g fill="#9DB58A" opacity="0.85">
+            <ellipse cx="22" cy="22" rx="4" ry="1.6" transform="rotate(-30 22 22)"/>
+            <ellipse cx="98" cy="22" rx="4" ry="1.6" transform="rotate(30 98 22)"/>
+            <ellipse cx="55" cy="11" rx="1.6" ry="3.5"/>
+            <ellipse cx="65" cy="11" rx="1.6" ry="3.5"/>
+          </g>
+          <!-- center flower -->
+          <g transform="translate(60 16)">
+            <g>
+              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35"/>
+              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(72)"/>
+              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(144)"/>
+              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(216)"/>
+              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(288)"/>
+              <circle r="2" fill="#FFD27A"/>
+            </g>
+          </g>
+          <!-- side flowers -->
+          <g transform="translate(30 26)">
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3"/>
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(288)"/>
+            <circle r="1.2" fill="#FFD27A"/>
+          </g>
+          <g transform="translate(90 26)">
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3"/>
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(288)"/>
+            <circle r="1.2" fill="#E8B85C"/>
+          </g>
+        </svg>
+
         <p class="greeting">Hey Isha,</p>
         <p class="message-text">
           For the <em>prettiest</em> smile that somehow fixes my mood without even trying 🌸✨
@@ -1328,6 +1389,48 @@ body::before {
             <circle cx="262" cy="280" r="1.4"/>
             <circle cx="80" cy="120" r="1.1"/>
             <circle cx="245" cy="155" r="1"/>
+          </g>
+
+          <!-- Mini daisies sprinkled in empty corners -->
+          <g class="mini-flowers" opacity="0.92">
+            <symbol id="miniDaisy" viewBox="-10 -10 20 20">
+              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5"/>
+              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5" transform="rotate(72)"/>
+              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5" transform="rotate(144)"/>
+              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5" transform="rotate(216)"/>
+              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5" transform="rotate(288)"/>
+              <circle r="2.4" fill="#E8B85C"/>
+              <circle r="1" fill="#A06A1F"/>
+            </symbol>
+            <symbol id="miniBud" viewBox="-6 -10 12 18">
+              <path d="M 0 6 C -1 0, -2 -4, 0 -8 C 2 -4, 1 0, 0 6 Z" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35"/>
+              <path d="M 0 7 L 0 -1" stroke="#7A9070" stroke-width="0.6"/>
+              <path d="M 0 2 q 3 -1 4 -3" stroke="#7A9070" stroke-width="0.5" fill="none"/>
+            </symbol>
+            <symbol id="miniBlossom" viewBox="-10 -10 20 20">
+              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35"/>
+              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35" transform="rotate(72)"/>
+              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35" transform="rotate(144)"/>
+              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35" transform="rotate(216)"/>
+              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35" transform="rotate(288)"/>
+              <circle r="1.8" fill="#FFD27A"/>
+            </symbol>
+            <!-- top-left cluster -->
+            <use href="#miniDaisy" x="38" y="58" width="22" height="22"/>
+            <use href="#miniBud" x="22" y="92" width="14" height="22" transform="rotate(-18 29 103)"/>
+            <use href="#miniBlossom" x="58" y="86" width="16" height="16"/>
+            <!-- top-right cluster -->
+            <use href="#miniDaisy" x="238" y="50" width="20" height="20"/>
+            <use href="#miniBud" x="262" y="80" width="14" height="22" transform="rotate(20 269 91)"/>
+            <use href="#miniBlossom" x="222" y="92" width="14" height="14"/>
+            <!-- bottom-left -->
+            <use href="#miniDaisy" x="40" y="332" width="22" height="22"/>
+            <use href="#miniBlossom" x="22" y="296" width="15" height="15"/>
+            <use href="#miniBud" x="64" y="304" width="13" height="20" transform="rotate(12 70 314)"/>
+            <!-- bottom-right -->
+            <use href="#miniDaisy" x="240" y="340" width="22" height="22"/>
+            <use href="#miniBlossom" x="264" y="300" width="15" height="15"/>
+            <use href="#miniBud" x="220" y="306" width="13" height="20" transform="rotate(-12 226 316)"/>
           </g>
         </svg>
 
