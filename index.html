@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 <style>
 :root {
   --bg-outer: #1A0F2E;
@@ -1203,6 +1202,11 @@ body::before {
   <span class="music-label">pause music</span>
 </button>
 
+<!-- ============== BACKGROUND SONG ============== -->
+<audio id="bgMusic" loop preload="auto" crossorigin="anonymous">
+  <source src="https://raw.githubusercontent.com/jiten123321/song/main/Teri%20Hasi%20Me%20Bollywood%20Slowed%20%26%20Reverb%20Ai%20Generated%20Bollywood%20Song%20-%20Ai%20Cover%20Dhun.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 // ========== ORCHID RAIN (purples + pinks mix for cool palette) ==========
 const welcome = document.getElementById('welcome');
@@ -1270,7 +1274,6 @@ const cardSpread = document.getElementById('cardSpread');
 const musicBtn = document.getElementById('musicBtn');
 
 openBtn.addEventListener('click', async () => {
-  try { await Tone.start(); } catch(e) {}
   openBtn.disabled = true;
   openBtn.style.pointerEvents = 'none';
 
@@ -1306,79 +1309,41 @@ function addAmbientParticles() {
   }
 }
 
-// ========== AMBIENT MUSIC ==========
-let bellSynth, padSynth, reverb, delay, isPlaying = false, loop;
+// ========== BACKGROUND SONG ==========
+const bgMusic = document.getElementById('bgMusic');
+bgMusic.volume = 0.65;
 const musicLabel = musicBtn.querySelector('.music-label');
-
-function setupAudio() {
-  reverb = new Tone.Reverb({ decay: 12, wet: 0.65 }).toDestination();
-  delay = new Tone.FeedbackDelay({ delayTime: '8n', feedback: 0.42, wet: 0.3 }).connect(reverb);
-  bellSynth = new Tone.PolySynth(Tone.Synth, {
-    oscillator: { type: 'sine' },
-    envelope: { attack: 0.01, decay: 0.7, sustain: 0.02, release: 1.8 },
-    volume: -14
-  }).connect(delay);
-  padSynth = new Tone.PolySynth(Tone.Synth, {
-    oscillator: { type: 'triangle' },
-    envelope: { attack: 2.2, decay: 1, sustain: 0.7, release: 4 },
-    volume: -22
-  }).connect(reverb);
-}
-
-const melody = [
-  'D5','F#5','A5','D6',
-  'C#6','A5','F#5','D5',
-  'E5','G5','B5','E6',
-  'D6','B5','G5','E5',
-  null,'F#5','A5','C#6',
-  'D6','C#6','A5','F#5',
-  'E5','G5','D5','G5',
-  null,'D6','A5','F#5'
-];
-const padChords = [
-  ['D3','F#3','A3'],
-  ['G3','B3','D4'],
-  ['A3','C#4','E4'],
-  ['F#3','A3','C#4']
-];
+let isPlaying = false;
 
 function startMusic() {
-  if (!bellSynth) setupAudio();
-  let i = 0, chordIdx = 0;
-  Tone.Transport.bpm.value = 68;
-  loop = new Tone.Loop((time) => {
-    const note = melody[i % melody.length];
-    if (note) bellSynth.triggerAttackRelease(note, '4n', time, 0.5 + Math.random() * 0.3);
-    if (i % 8 === 0) {
-      padSynth.triggerAttackRelease(padChords[chordIdx % padChords.length], '1m', time, 0.4);
-      chordIdx++;
-    }
-    i++;
-  }, '4n').start(0);
-  Tone.Transport.start();
-  isPlaying = true;
-  musicBtn.classList.add('playing');
-  if (musicLabel) musicLabel.textContent = 'pause music';
+  const p = bgMusic.play();
+  if (p && typeof p.then === 'function') {
+    p.then(() => {
+      isPlaying = true;
+      musicBtn.classList.add('playing');
+      if (musicLabel) musicLabel.textContent = 'pause music';
+    }).catch(() => {
+      isPlaying = false;
+      musicBtn.classList.remove('playing');
+      if (musicLabel) musicLabel.textContent = 'play music';
+    });
+  } else {
+    isPlaying = true;
+    musicBtn.classList.add('playing');
+    if (musicLabel) musicLabel.textContent = 'pause music';
+  }
 }
 
 function pauseMusic() {
-  Tone.Transport.pause();
+  bgMusic.pause();
   isPlaying = false;
   musicBtn.classList.remove('playing');
   if (musicLabel) musicLabel.textContent = 'play music';
 }
 
-musicBtn.addEventListener('click', async () => {
-  try { await Tone.start(); } catch(e) {}
+musicBtn.addEventListener('click', () => {
   if (isPlaying) pauseMusic();
-  else {
-    if (Tone.Transport.state === 'paused') {
-      Tone.Transport.start();
-      isPlaying = true;
-      musicBtn.classList.add('playing');
-      if (musicLabel) musicLabel.textContent = 'pause music';
-    } else startMusic();
-  }
+  else startMusic();
 });
 </script>
 </body>
