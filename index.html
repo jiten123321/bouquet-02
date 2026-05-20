@@ -1061,7 +1061,7 @@ body::before {
   .message-content { padding: 1.2rem 1rem; }
 }
 
-/* ============== ENVELOPE INTRO ============== */
+/* ============== ROYAL DECREE SCROLL INTRO ============== */
 .envelope-stage {
   position: fixed;
   inset: 0;
@@ -1070,15 +1070,13 @@ body::before {
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(ellipse at 25% 25%, #EFDEF0 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 80%, #B095CE 0%, transparent 60%),
-    linear-gradient(135deg, var(--page-bg) 0%, var(--page-bg-deep) 100%);
+    radial-gradient(ellipse at 25% 25%, rgba(232, 200, 140, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 80%, rgba(155, 92, 126, 0.55) 0%, transparent 60%),
+    linear-gradient(135deg, #2A1638 0%, #1A0E25 100%);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 1s ease, visibility 1s ease;
-  perspective: 1100px;
-  perspective-origin: center 42%;
   contain: layout paint style;
 }
 .envelope-stage.visible { opacity: 1; visibility: visible; }
@@ -1088,155 +1086,219 @@ body::before {
   transition: opacity 1.2s ease, visibility 1.2s ease;
 }
 
-.envelope {
+.scroll {
   position: relative;
-  width: min(340px, 78vw);
-  aspect-ratio: 16/10;
-  transform: translate3d(0,20px,0) scale(0.72) rotateX(0deg);
+  width: min(320px, 78vw);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transform: translate3d(0,16px,0) scale(0.78);
   opacity: 0;
-  transition: transform 0.9s cubic-bezier(0.32, 1.05, 0.45, 1), opacity 0.7s ease;
-  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.32, 1.05, 0.45, 1), opacity 0.7s ease;
   will-change: transform, opacity;
 }
-.envelope-stage.visible .envelope { transform: translate3d(0,0,0) scale(1) rotateX(0deg); opacity: 1; }
-.envelope-stage.open .envelope { transform: translate3d(0,-2px,0) scale(1) rotateX(3deg); transition: transform 1s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.7s ease; }
+.envelope-stage.visible .scroll { transform: translate3d(0,0,0) scale(1); opacity: 1; }
 
-.env-back {
-  position: absolute; inset: 0;
+.scroll-roller {
+  position: relative;
+  height: 22px;
+  margin: 0 -10px;
+  border-radius: 13px;
   background:
-    radial-gradient(ellipse at 30% 25%, #B589C5 0%, transparent 55%),
-    linear-gradient(135deg, #6B3D5E 0%, #9C5C7E 100%);
-  border-radius: 6px;
-  box-shadow: 0 26px 54px -12px rgba(20,8,30,0.55);
-  z-index: 1;
-}
-
-/* Dedicated GPU shadow layer beneath the letter — animate only transform/opacity (no box-shadow repaint) */
-.env-letter-shadow {
-  position: absolute;
-  left: 8%; right: 8%;
-  bottom: 6%;
-  height: 12%;
-  background: radial-gradient(ellipse at 50% 50%, rgba(20, 8, 30, 0.55) 0%, rgba(20, 8, 30, 0.25) 40%, transparent 75%);
-  border-radius: 50%;
-  opacity: 0.4;
-  z-index: 2;
-  transform: translate3d(0,0,0) scale(1);
-  will-change: transform, opacity;
-  pointer-events: none;
-}
-.envelope-stage.lift .env-letter-shadow {
-  animation: letterShadow 1.5s cubic-bezier(0.38, 0.05, 0.16, 1) forwards;
-}
-@keyframes letterShadow {
-  0%   { transform: translate3d(0,0,0) scale(1);   opacity: 0.45; }
-  60%  { transform: translate3d(0,8px,0) scale(1.35); opacity: 0.25; }
-  100% { transform: translate3d(0,14px,0) scale(1.6); opacity: 0.12; }
-}
-
-.env-letter {
-  position: absolute;
-  left: 6%; right: 6%;
-  bottom: 8%;
-  height: 78%;
-  background: linear-gradient(135deg, #FFFAEE 0%, var(--card-bg) 40%, var(--card-bg-warm) 100%);
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px rgba(212, 165, 116, 0.42);
-  z-index: 3;
-  transform: translate3d(0,0,0) rotate(0deg);
+    linear-gradient(180deg,
+      #C99B5C 0%,
+      #8B6231 28%,
+      #5E3F1C 52%,
+      #8B6231 76%,
+      #B98744 100%);
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(40, 25, 10, 0.55);
+  z-index: 4;
   will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
-.envelope-stage.lift .env-letter {
-  animation: letterLift 1.5s cubic-bezier(0.38, 0.05, 0.16, 1) forwards;
-}
-@keyframes letterLift {
-  0%   { transform: translate3d(0,0,0)    rotate(0deg); }
-  60%  { transform: translate3d(0,-55%,0) rotate(-1deg); }
-  100% { transform: translate3d(0,-70%,0) rotate(-1.1deg); }
-}
-.env-letter::before {
-  content: '✿';
-  position: absolute;
-  top: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 20px;
-  color: var(--rose-deep);
-  opacity: 0.75;
-}
-.env-letter::after {
+.scroll-roller::before {
   content: '';
   position: absolute;
-  top: 34%;
-  left: 18%;
-  right: 18%;
-  height: 1px;
-  background: rgba(212, 165, 116, 0.45);
+  inset: 5px 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 220, 160, 0.35) 0%, transparent 50%, rgba(0,0,0,0.2) 100%);
+  pointer-events: none;
+}
+.scroll-cap {
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 30%, #F3D5A0 0%, #C99B5C 30%, #8B6231 65%, #4A2D14 100%);
   box-shadow:
-    0 9px 0 -0.5px rgba(212, 165, 116, 0.35),
-    0 18px 0 -0.5px rgba(212, 165, 116, 0.28),
-    0 27px 0 -0.5px rgba(212, 165, 116, 0.2);
+    0 3px 6px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(40, 25, 10, 0.6);
+  transform: translateY(-50%);
+  z-index: 5;
 }
-
-.env-front {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, #8E4F76 0%, #B26A8E 60%, #8E4F76 100%);
-  clip-path: polygon(0 100%, 50% 35%, 100% 100%);
-  z-index: 4;
-}
-
-/* Two-sided flap — no filter, no animated box-shadow */
-.env-flap {
+.scroll-cap.left  { left:  -12px; }
+.scroll-cap.right { right: -12px; }
+.scroll-cap::after {
+  content: '';
   position: absolute;
-  inset: 0;
-  transform-origin: 50% 0;
-  transform: rotateX(0deg) translateZ(0);
-  transform-style: preserve-3d;
+  inset: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFEAB8 0%, #B98744 60%, #5E3F1C 100%);
+}
+
+.scroll-roller-top    { transform: translate3d(0,8px,0); }
+.scroll-roller-bottom { transform: translate3d(0,-8px,0); }
+.envelope-stage.lift .scroll-roller-top    { transform: translate3d(0,0,0); transition: transform 1.4s cubic-bezier(0.38, 0.05, 0.18, 1); }
+.envelope-stage.lift .scroll-roller-bottom { transform: translate3d(0,0,0); transition: transform 1.4s cubic-bezier(0.38, 0.05, 0.18, 1); }
+
+.scroll-paper {
+  position: relative;
+  height: 26px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 30% 20%, #FCF2D6 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 85%, #E8D29A 0%, transparent 65%),
+    linear-gradient(180deg, #F5E6BA 0%, #EDD9A4 50%, #F2E2B0 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(140, 90, 30, 0.32),
+    inset 14px 0 28px -10px rgba(140, 90, 30, 0.22),
+    inset -14px 0 28px -10px rgba(140, 90, 30, 0.22);
+  transition: height 1.4s cubic-bezier(0.38, 0.05, 0.18, 1);
+  will-change: height;
+}
+.envelope-stage.lift .scroll-paper { height: 360px; }
+
+.scroll-content {
+  padding: 28px 28px 26px;
+  text-align: center;
+  color: #5A3818;
+  font-family: 'Fraunces', serif;
+  opacity: 0;
+  transform: translate3d(0,8px,0);
+  transition: opacity 0.7s ease 0.55s, transform 0.7s ease 0.55s;
+}
+.envelope-stage.lift .scroll-content { opacity: 1; transform: translate3d(0,0,0); }
+
+.scroll-crown {
+  font-size: 1.5rem;
+  color: #A06A1F;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.18);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.2rem;
+}
+.scroll-banner {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.55rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #6E2A24;
+  margin-bottom: 0.4rem;
+  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.55);
+}
+.scroll-rule {
+  width: 70%;
+  height: 1px;
+  margin: 0.6rem auto;
+  background: linear-gradient(90deg, transparent, #A06A1F 50%, transparent);
+  position: relative;
+}
+.scroll-rule::after {
+  content: '✦';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, #F5E6BA, #EDD9A4);
+  padding: 0 0.5rem;
+  color: #A06A1F;
+  font-size: 0.7rem;
+}
+.scroll-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #5A3818;
+  margin: 0.35rem 0 0.55rem;
+}
+.scroll-name {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2rem;
+  color: #6E2A24;
+  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.6);
+  line-height: 1;
+  margin: 0.1rem 0 0.3rem;
+}
+.scroll-sigil {
+  font-size: 0.95rem;
+  color: #A06A1F;
+  letter-spacing: 0.5em;
+  margin-top: 0.4rem;
+}
+
+/* Wax seal — sits over the rolled scroll, pops off on "open" */
+.scroll-seal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #E47087 0%, #B12C46 45%, #6E1A2C 100%);
+  box-shadow:
+    0 0 0 2px #4E1020,
+    0 8px 18px rgba(94, 21, 37, 0.7),
+    inset 0 4px 6px rgba(255, 180, 200, 0.35),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.4);
   z-index: 6;
-  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFE2A8;
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.7rem;
+  text-shadow: 0 1px 2px rgba(40, 0, 10, 0.6);
+  transform: translate3d(0,0,0) scale(1) rotate(0deg);
+  opacity: 1;
+  transition: transform 0.75s cubic-bezier(0.5, -0.4, 0.7, 0.2), opacity 0.55s ease;
+  will-change: transform, opacity;
 }
-.env-flap-front, .env-flap-back {
+.scroll-seal::before {
+  content: '';
   position: absolute;
-  inset: 0;
-  clip-path: polygon(0 0, 50% 65%, 100% 0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 226, 168, 0.35);
 }
-.env-flap-front {
-  background: linear-gradient(160deg, #C77F9E 0%, #B26A8E 45%, #7E4365 100%);
-  transform: rotateX(0deg) translateZ(0.4px);
-}
-.env-flap-back {
-  background: linear-gradient(135deg, #F0E1CD 0%, #E2D2B8 100%);
-  transform: rotateX(180deg) translateZ(0.4px);
-  box-shadow: inset 0 0 0 1px rgba(168, 120, 80, 0.18);
-}
-.envelope-stage.open .env-flap {
-  animation: flapOpen 1.15s cubic-bezier(0.52, 0, 0.2, 1) forwards;
-}
-@keyframes flapOpen {
-  0%   { transform: rotateX(0deg)    translateZ(0); }
-  7%   { transform: rotateX(-4deg)   translateZ(0); }
-  86%  { transform: rotateX(-175deg) translateZ(0); }
-  100% { transform: rotateX(-172deg) translateZ(0); }
+.envelope-stage.open .scroll-seal {
+  transform: translate3d(-8px, 28px, 0) scale(0.6) rotate(-32deg);
+  opacity: 0;
 }
 
 @media (max-width: 700px) {
-  .envelope-stage { perspective: 1250px; perspective-origin: center 46%; }
-  .envelope { width: min(290px, 78vw); }
-  .env-letter::before { font-size: 17px; }
-  .env-letter::after { top: 36%; box-shadow:
-    0 8px 0 -0.5px rgba(212, 165, 116, 0.35),
-    0 16px 0 -0.5px rgba(212, 165, 116, 0.28),
-    0 24px 0 -0.5px rgba(212, 165, 116, 0.2); }
+  .scroll { width: min(300px, 82vw); }
+  .scroll-banner { font-size: 1.35rem; }
+  .scroll-name { font-size: 1.95rem; }
+  .scroll-text { font-size: 0.95rem; }
+  .envelope-stage.lift .scroll-paper { height: 330px; }
+  .scroll-seal { width: 58px; height: 58px; margin: -29px 0 0 -29px; font-size: 1.55rem; }
 }
 @media (max-width: 380px) {
-  .envelope { width: 78vw; }
+  .scroll { width: 82vw; }
+  .envelope-stage.lift .scroll-paper { height: 310px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .envelope, .env-flap, .env-letter, .env-letter-shadow { transition-duration: 0.3s !important; animation-duration: 0.3s !important; }
+  .scroll, .scroll-paper, .scroll-roller, .scroll-content, .scroll-seal {
+    transition-duration: 0.3s !important;
+  }
 }
 </style>
 </head>
@@ -1254,17 +1316,29 @@ body::before {
   <div class="welcome-hint">tap to open ✦ music begins inside</div>
 </div>
 
-<!-- ============== ENVELOPE INTRO ============== -->
+<!-- ============== ROYAL DECREE SCROLL INTRO ============== -->
 <div class="envelope-stage" id="envelopeStage" aria-hidden="true">
-  <div class="envelope">
-    <div class="env-back"></div>
-    <div class="env-letter-shadow"></div>
-    <div class="env-letter"></div>
-    <div class="env-front"></div>
-    <div class="env-flap">
-      <div class="env-flap-front"></div>
-      <div class="env-flap-back"></div>
+  <div class="scroll">
+    <div class="scroll-roller scroll-roller-top">
+      <span class="scroll-cap left"></span>
+      <span class="scroll-cap right"></span>
     </div>
+    <div class="scroll-paper">
+      <div class="scroll-content">
+        <div class="scroll-crown">♛</div>
+        <div class="scroll-banner">Royal Decree</div>
+        <div class="scroll-rule"></div>
+        <p class="scroll-text">By heartfelt command,<br>this scroll is decreed for —</p>
+        <div class="scroll-name">Ladoo</div>
+        <div class="scroll-rule"></div>
+        <div class="scroll-sigil">✦ ✿ ✦</div>
+      </div>
+    </div>
+    <div class="scroll-roller scroll-roller-bottom">
+      <span class="scroll-cap left"></span>
+      <span class="scroll-cap right"></span>
+    </div>
+    <div class="scroll-seal">L</div>
   </div>
 </div>
 
@@ -1730,27 +1804,27 @@ openBtn.addEventListener('click', async () => {
 
   const envStage = document.getElementById('envelopeStage');
 
-  // Envelope intro sequence — GPU-only transforms, no animated shadows
-  setTimeout(() => envStage.classList.add('visible'), 300);   // envelope scales/fades in (~0.9s)
-  setTimeout(() => envStage.classList.add('open'),    1300);  // flap unsticks + opens with settle (~1.15s)
-  setTimeout(() => envStage.classList.add('lift'),    2300);  // letter slides up (~1.5s)
-  setTimeout(() => envStage.classList.add('gone'),    3950);  // envelope fades (~1.2s)
+  // Royal Decree scroll intro — GPU-only transforms
+  setTimeout(() => envStage.classList.add('visible'), 300);   // scroll scales/fades in (~0.85s)
+  setTimeout(() => envStage.classList.add('open'),    1350);  // wax seal pops off (~0.75s)
+  setTimeout(() => envStage.classList.add('lift'),    2100);  // paper unfurls + decree text fades in (~1.4s)
+  setTimeout(() => envStage.classList.add('gone'),    4000);  // stage fades, reveals card (~1.2s)
 
-  // Card cover flip starts as the envelope finishes fading
-  setTimeout(() => { cardSpread.classList.add('open'); }, 4350);
+  // Card cover flip starts as the scroll finishes fading
+  setTimeout(() => { cardSpread.classList.add('open'); }, 4400);
 
   setTimeout(() => {
     musicBtn.classList.add('visible');
     musicBtn.classList.add('playing');
-  }, 5550);
+  }, 5650);
   setTimeout(() => {
     const hint = document.getElementById('musicHint');
     if (hint) {
       hint.classList.add('visible');
       setTimeout(() => hint.classList.remove('visible'), 6000);
     }
-  }, 5900);
-  setTimeout(addAmbientParticles, 4800);
+  }, 6000);
+  setTimeout(addAmbientParticles, 4900);
 });
 
 function addAmbientParticles() {
