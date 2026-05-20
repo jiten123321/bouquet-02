@@ -1068,9 +1068,10 @@ body::before {
   z-index: 95;
   display: flex;
   background:
-    radial-gradient(ellipse at 25% 25%, rgba(232, 200, 140, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 80%, rgba(155, 92, 126, 0.55) 0%, transparent 60%),
-    linear-gradient(135deg, #2A1638 0%, #1A0E25 100%);
+    radial-gradient(ellipse at 22% 18%, rgba(255, 205, 225, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 82%, rgba(180, 130, 210, 0.55) 0%, transparent 62%),
+    radial-gradient(ellipse at 50% 50%, rgba(150, 100, 180, 0.22) 0%, transparent 70%),
+    linear-gradient(155deg, #321A48 0%, #1C0F2E 60%, #281438 100%);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -1094,6 +1095,7 @@ body::before {
   transition: transform 0.85s cubic-bezier(0.32, 1.05, 0.45, 1), opacity 0.7s ease;
   will-change: transform, opacity;
   pointer-events: auto;
+  isolation: isolate;
 }
 .envelope-stage.visible .scroll { transform: translate3d(0,0,0) scale(1); opacity: 1; }
 
@@ -1218,12 +1220,12 @@ body::before {
   font-size: 0.7rem;
 }
 .scroll-mark {
-  font-family: 'Fraunces', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.45rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
   color: #8B5F2E;
-  margin: 0.35rem 0 0.15rem;
+  margin: 0.45rem 0 -0.1rem;
 }
 .scroll-name {
   font-family: 'Dancing Script', cursive;
@@ -1269,6 +1271,69 @@ body::before {
   color: #A06A1F;
   letter-spacing: 0.5em;
   margin-top: 0.4rem;
+}
+
+/* Dreamy halo glow around the scroll */
+.scroll::before {
+  content: '';
+  position: absolute;
+  inset: -60px;
+  background: radial-gradient(ellipse at center, rgba(255, 215, 175, 0.22) 0%, rgba(200, 150, 220, 0.12) 35%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s ease 1.2s;
+  border-radius: 50%;
+  filter: blur(8px);
+}
+.envelope-stage.lift .scroll::before { opacity: 1; }
+
+/* Shimmering name */
+.scroll-name {
+  background: linear-gradient(100deg, #6E2A24 0%, #A93B5C 35%, #E0A3BE 50%, #A93B5C 65%, #6E2A24 100%);
+  background-size: 220% auto;
+  background-position: 0% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.envelope-stage.lift .scroll-name {
+  animation: nameShimmer 6s linear 1.4s infinite;
+}
+@keyframes nameShimmer {
+  0%   { background-position:    0% center; }
+  100% { background-position: -220% center; }
+}
+
+/* Gentle floating motion once the scroll has settled */
+.envelope-stage.lift .scroll {
+  animation: scrollFloat 6s ease-in-out 2.2s infinite;
+}
+@keyframes scrollFloat {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); }
+  50%      { transform: translate3d(0,-6px,0) scale(1); }
+}
+
+/* Glitter rain — twinkling specks falling over the dreamy scene */
+.glitter {
+  position: fixed;
+  pointer-events: none;
+  z-index: 96;
+  user-select: none;
+  font-family: 'Fraunces', serif;
+  line-height: 1;
+  text-shadow: 0 0 6px currentColor;
+  animation: glitterFall linear infinite, glitterTwinkle ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes glitterFall {
+  0%   { transform: translate3d(0,-12vh,0) rotate(0deg); }
+  100% { transform: translate3d(0,112vh,0) rotate(120deg); }
+}
+@keyframes glitterTwinkle {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 1;    }
 }
 
 /* Corner flowers anchored to the parchment corners */
@@ -1425,7 +1490,7 @@ body::before {
         <div class="scroll-crown">♛</div>
         <div class="scroll-banner">Royal Decree</div>
         <div class="scroll-rule"></div>
-        <div class="scroll-mark">— for my dearest —</div>
+        <div class="scroll-mark">hey,</div>
         <div class="scroll-name">Ladoo</div>
 
         <!-- Floral spray -->
@@ -1649,7 +1714,36 @@ openBtn.addEventListener('click', async () => {
     }
   }, 4100);
   setTimeout(addAmbientParticles, 3500);
+  setTimeout(startGlitterRain, 3200);
 });
+
+// ========== GLITTER RAIN (dreamy overlay once the decree is open) ==========
+const glitterChars  = ['✦', '✧', '⋆', '✨', '•'];
+const glitterColors = ['#FFE6A8', '#FFD27A', '#FFFAEE', '#F5C7DE', '#E0B8F0', '#FFFFFF'];
+let glitterTimer = null;
+
+function spawnGlitter() {
+  const g = document.createElement('div');
+  g.className = 'glitter';
+  g.textContent = glitterChars[Math.floor(Math.random() * glitterChars.length)];
+  g.style.color = glitterColors[Math.floor(Math.random() * glitterColors.length)];
+  const size = 8 + Math.random() * 16;
+  g.style.fontSize = size + 'px';
+  g.style.left = Math.random() * 100 + 'vw';
+  const fallDur = 9 + Math.random() * 9;        // 9–18s downward drift
+  const twinkleDur = 1.4 + Math.random() * 2.2; // gentle twinkle
+  g.style.animationDuration = fallDur + 's, ' + twinkleDur + 's';
+  g.style.animationDelay = -Math.random() * fallDur + 's, ' + -Math.random() * twinkleDur + 's';
+  document.body.appendChild(g);
+  setTimeout(() => g.remove(), fallDur * 1000 + 200);
+}
+
+function startGlitterRain() {
+  if (glitterTimer) return;
+  const initial = isMobile ? 14 : 22;
+  for (let i = 0; i < initial; i++) spawnGlitter();
+  glitterTimer = setInterval(spawnGlitter, isMobile ? 700 : 450);
+}
 
 function addAmbientParticles() {
   const particleColors = ['#C490D5', '#D4A574', '#B088C0', '#FFF8E8', '#E8C898'];
