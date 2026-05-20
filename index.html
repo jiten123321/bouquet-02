@@ -1084,7 +1084,7 @@ body::before {
 
 .scroll {
   position: relative;
-  width: min(360px, 86vw);
+  width: min(480px, 92vw);
   margin: auto;          /* centers when there's room, anchors top when content overflows */
   display: flex;
   flex-direction: column;
@@ -1099,9 +1099,9 @@ body::before {
 
 .scroll-roller {
   position: relative;
-  height: 22px;
-  margin: 0 -10px;
-  border-radius: 13px;
+  height: 26px;
+  margin: 0 -12px;
+  border-radius: 15px;
   background:
     linear-gradient(180deg,
       #C99B5C 0%,
@@ -1126,8 +1126,8 @@ body::before {
 .scroll-cap {
   position: absolute;
   top: 50%;
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background:
     radial-gradient(circle at 32% 30%, #F3D5A0 0%, #C99B5C 30%, #8B6231 65%, #4A2D14 100%);
@@ -1137,8 +1137,8 @@ body::before {
   transform: translateY(-50%);
   z-index: 5;
 }
-.scroll-cap.left  { left:  -12px; }
-.scroll-cap.right { right: -12px; }
+.scroll-cap.left  { left:  -14px; }
+.scroll-cap.right { right: -14px; }
 .scroll-cap::after {
   content: '';
   position: absolute;
@@ -1170,31 +1170,33 @@ body::before {
 .envelope-stage.lift .scroll-paper { height: var(--scroll-unfurled, 540px); }
 
 .scroll-content {
-  padding: 30px 26px 26px;
+  padding: 40px 36px 34px;
   text-align: center;
   color: #5A3818;
   font-family: 'Cormorant Garamond', serif;
   opacity: 0;
   transform: translate3d(0,8px,0);
   transition: opacity 0.8s ease 0.55s, transform 0.8s ease 0.55s;
+  position: relative;
+  z-index: 3;
 }
 .envelope-stage.lift .scroll-content { opacity: 1; transform: translate3d(0,0,0); }
 
 .scroll-crown {
-  font-size: 1.5rem;
+  font-size: 1.9rem;
   color: #A06A1F;
   text-shadow: 0 1px 1px rgba(0,0,0,0.18);
   letter-spacing: 0.1em;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
 }
 .scroll-banner {
   font-family: 'Fraunces', serif;
   font-style: italic;
-  font-size: 1.6rem;
+  font-size: 2.1rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   color: #6E2A24;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
   text-shadow: 0 1px 0 rgba(255, 240, 200, 0.55);
 }
 .scroll-rule {
@@ -1217,34 +1219,39 @@ body::before {
 }
 .scroll-mark {
   font-family: 'Fraunces', serif;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   letter-spacing: 0.42em;
   text-transform: uppercase;
   color: #8B5F2E;
-  margin: 0.3rem 0 0.1rem;
+  margin: 0.35rem 0 0.15rem;
 }
 .scroll-name {
   font-family: 'Dancing Script', cursive;
-  font-size: 2.6rem;
+  font-size: 3.4rem;
   color: #6E2A24;
   text-shadow: 0 1px 0 rgba(255, 240, 200, 0.6);
   line-height: 1.05;
-  margin: 0.1rem 0 0.5rem;
+  margin: 0.1rem 0 0.55rem;
 }
 .scroll-spray {
   display: block;
-  width: 64%;
-  max-width: 180px;
+  width: 70%;
+  max-width: 240px;
   height: auto;
-  margin: 0.2rem auto 0.7rem;
+  margin: 0.25rem auto 0.85rem;
   opacity: 0.95;
+}
+.scroll-spray-bottom {
+  width: 56%;
+  max-width: 180px;
+  margin: 0.6rem auto 0.4rem;
 }
 .scroll-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
-  line-height: 1.55;
+  font-size: 1.2rem;
+  line-height: 1.6;
   color: #5A3818;
-  margin: 0.4rem 0 0.6rem;
+  margin: 0.5rem 0 0.75rem;
 }
 .scroll-text em {
   font-style: italic;
@@ -1253,25 +1260,41 @@ body::before {
 }
 .scroll-sign {
   font-family: 'Dancing Script', cursive;
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   color: #8B5F2E;
-  margin-top: 0.45rem;
+  margin-top: 0.5rem;
 }
 .scroll-sigil {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: #A06A1F;
   letter-spacing: 0.5em;
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
 }
+
+/* Corner flowers anchored to the parchment corners */
+.scroll-flower {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  opacity: 0;
+  transition: opacity 0.85s ease 0.95s;
+  pointer-events: none;
+  z-index: 2;
+}
+.envelope-stage.lift .scroll-flower { opacity: 0.92; }
+.scroll-flower-tl { top: 4px;    left: 4px;  }
+.scroll-flower-tr { top: 4px;    right: 4px; transform: scaleX(-1); }
+.scroll-flower-bl { bottom: 4px; left: 4px;  transform: scaleY(-1); }
+.scroll-flower-br { bottom: 4px; right: 4px; transform: scale(-1, -1); }
 
 /* Wax seal — sits over the rolled scroll, pops off on "open" */
 .scroll-seal {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 64px;
-  height: 64px;
-  margin: -32px 0 0 -32px;
+  width: 76px;
+  height: 76px;
+  margin: -38px 0 0 -38px;
   border-radius: 50%;
   background:
     radial-gradient(circle at 32% 28%, #E47087 0%, #B12C46 45%, #6E1A2C 100%);
@@ -1288,7 +1311,7 @@ body::before {
   font-family: 'Fraunces', serif;
   font-weight: 700;
   font-style: italic;
-  font-size: 1.7rem;
+  font-size: 2rem;
   text-shadow: 0 1px 2px rgba(40, 0, 10, 0.6);
   transform: translate3d(0,0,0) scale(1) rotate(0deg);
   opacity: 1;
@@ -1308,17 +1331,22 @@ body::before {
 }
 
 @media (max-width: 700px) {
-  .scroll { width: min(340px, 88vw); }
-  .scroll-banner { font-size: 1.4rem; }
-  .scroll-name { font-size: 2.3rem; }
-  .scroll-text { font-size: 1rem; line-height: 1.5; }
-  .scroll-content { padding: 26px 22px 22px; }
-  .scroll-seal { width: 58px; height: 58px; margin: -29px 0 0 -29px; font-size: 1.55rem; }
+  .scroll { width: min(400px, 92vw); }
+  .scroll-crown { font-size: 1.65rem; }
+  .scroll-banner { font-size: 1.75rem; }
+  .scroll-name { font-size: 2.85rem; }
+  .scroll-text { font-size: 1.1rem; line-height: 1.55; }
+  .scroll-content { padding: 32px 26px 26px; }
+  .scroll-seal { width: 66px; height: 66px; margin: -33px 0 0 -33px; font-size: 1.75rem; }
+  .scroll-flower { width: 50px; height: 50px; }
 }
 @media (max-width: 380px) {
-  .scroll { width: 90vw; }
-  .scroll-content { padding: 24px 18px 20px; }
-  .scroll-spray { width: 70%; }
+  .scroll { width: 94vw; }
+  .scroll-content { padding: 26px 20px 22px; }
+  .scroll-name { font-size: 2.5rem; }
+  .scroll-banner { font-size: 1.55rem; }
+  .scroll-text { font-size: 1.02rem; }
+  .scroll-flower { width: 42px; height: 42px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .scroll, .scroll-paper, .scroll-roller, .scroll-content, .scroll-seal {
@@ -1328,6 +1356,46 @@ body::before {
 </style>
 </head>
 <body>
+
+<!-- Shared SVG definitions -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <symbol id="scrollCornerFlower" viewBox="0 0 60 60">
+      <g stroke="#7A9070" stroke-width="0.9" fill="none" stroke-linecap="round">
+        <path d="M2 2 Q14 18, 24 32 Q30 46, 34 56"/>
+        <path d="M24 32 q-7 2 -11 -3"/>
+        <path d="M28 18 q-5 -5 -11 -2"/>
+      </g>
+      <g fill="#9DB58A" opacity="0.85">
+        <ellipse cx="14" cy="22" rx="6" ry="2.4" transform="rotate(-25 14 22)"/>
+        <ellipse cx="22" cy="38" rx="5" ry="2" transform="rotate(-10 22 38)"/>
+        <ellipse cx="8" cy="12" rx="4" ry="1.8" transform="rotate(-50 8 12)"/>
+      </g>
+      <!-- main pink-purple bloom -->
+      <g transform="translate(34 50)">
+        <ellipse cx="0" cy="-5" rx="3.5" ry="6" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35"/>
+        <ellipse cx="0" cy="-5" rx="3.5" ry="6" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-5" rx="3.5" ry="6" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-5" rx="3.5" ry="6" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-5" rx="3.5" ry="6" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(288)"/>
+        <circle r="2" fill="#FFD27A"/>
+      </g>
+      <!-- small cream daisy -->
+      <g transform="translate(16 42)">
+        <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.35"/>
+        <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.35" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.35" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.35" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.35" transform="rotate(288)"/>
+        <circle r="1.2" fill="#E8B85C"/>
+      </g>
+      <!-- small bud -->
+      <g transform="translate(8 30)">
+        <path d="M0 4 Q-1.4 0 0 -4 Q1.4 0 0 4 Z" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
 
 <!-- ============== WELCOME OVERLAY ============== -->
 <div class="welcome" id="welcome">
@@ -1349,6 +1417,10 @@ body::before {
       <span class="scroll-cap right"></span>
     </div>
     <div class="scroll-paper">
+      <svg class="scroll-flower scroll-flower-tl" viewBox="0 0 60 60" aria-hidden="true"><use href="#scrollCornerFlower"/></svg>
+      <svg class="scroll-flower scroll-flower-tr" viewBox="0 0 60 60" aria-hidden="true"><use href="#scrollCornerFlower"/></svg>
+      <svg class="scroll-flower scroll-flower-bl" viewBox="0 0 60 60" aria-hidden="true"><use href="#scrollCornerFlower"/></svg>
+      <svg class="scroll-flower scroll-flower-br" viewBox="0 0 60 60" aria-hidden="true"><use href="#scrollCornerFlower"/></svg>
       <div class="scroll-content">
         <div class="scroll-crown">♛</div>
         <div class="scroll-banner">Royal Decree</div>
@@ -1401,6 +1473,44 @@ body::before {
         </p>
 
         <div class="scroll-rule"></div>
+
+        <!-- second, smaller floral spray near the signature -->
+        <svg class="scroll-spray scroll-spray-bottom" viewBox="0 0 100 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#7A9070" stroke-width="0.7" fill="none" stroke-linecap="round">
+            <path d="M8 14 Q26 6, 50 4 Q74 6, 92 14"/>
+            <path d="M26 9 q-4 -4 -7 -3"/>
+            <path d="M74 9 q4 -4 7 -3"/>
+          </g>
+          <g fill="#9DB58A" opacity="0.85">
+            <ellipse cx="18" cy="13" rx="4" ry="1.6" transform="rotate(-25 18 13)"/>
+            <ellipse cx="82" cy="13" rx="4" ry="1.6" transform="rotate(25 82 13)"/>
+          </g>
+          <g transform="translate(50 4)">
+            <ellipse cx="0" cy="-3" rx="2.4" ry="4" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3"/>
+            <ellipse cx="0" cy="-3" rx="2.4" ry="4" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-3" rx="2.4" ry="4" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-3" rx="2.4" ry="4" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-3" rx="2.4" ry="4" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(288)"/>
+            <circle r="1.5" fill="#FFD27A"/>
+          </g>
+          <g transform="translate(26 10)">
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.3"/>
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.3" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.3" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.3" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.3" transform="rotate(288)"/>
+            <circle r="1" fill="#FFD27A"/>
+          </g>
+          <g transform="translate(74 10)">
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3"/>
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-2.4" rx="1.8" ry="2.8" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(288)"/>
+            <circle r="1" fill="#E8B85C"/>
+          </g>
+        </svg>
+
         <div class="scroll-sign">— sirf tumhare liye —</div>
         <div class="scroll-sigil">✦ ✿ ✦</div>
       </div>
