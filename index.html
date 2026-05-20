@@ -747,7 +747,7 @@ body::before {
   align-items: center;
   gap: 0.6rem;
   transition: opacity 1s, background 0.4s, color 0.4s, border-color 0.4s;
-  z-index: 50;
+  z-index: 110;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   opacity: 0;
@@ -793,7 +793,7 @@ body::before {
   text-shadow: 0 1px 8px rgba(58, 24, 56, 0.55), 0 0 18px rgba(212, 165, 116, 0.35);
   letter-spacing: 0.02em;
   pointer-events: none;
-  z-index: 49;
+  z-index: 109;
   opacity: 0;
   transform: translate(-50%, -6px);
   transition: opacity 1.2s ease, transform 1.2s ease;
@@ -1061,14 +1061,12 @@ body::before {
   .message-content { padding: 1.2rem 1rem; }
 }
 
-/* ============== ROYAL DECREE SCROLL INTRO ============== */
+/* ============== ROYAL DECREE SCROLL ============== */
 .envelope-stage {
   position: fixed;
   inset: 0;
   z-index: 95;
   display: flex;
-  align-items: center;
-  justify-content: center;
   background:
     radial-gradient(ellipse at 25% 25%, rgba(232, 200, 140, 0.18) 0%, transparent 55%),
     radial-gradient(ellipse at 75% 80%, rgba(155, 92, 126, 0.55) 0%, transparent 60%),
@@ -1078,17 +1076,16 @@ body::before {
   pointer-events: none;
   transition: opacity 1s ease, visibility 1s ease;
   contain: layout paint style;
+  overflow-y: auto;
+  padding: 1.2rem 1rem;
+  -webkit-overflow-scrolling: touch;
 }
-.envelope-stage.visible { opacity: 1; visibility: visible; }
-.envelope-stage.gone {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 1.2s ease, visibility 1.2s ease;
-}
+.envelope-stage.visible { opacity: 1; visibility: visible; pointer-events: auto; }
 
 .scroll {
   position: relative;
-  width: min(320px, 78vw);
+  width: min(360px, 86vw);
+  margin: auto;          /* centers when there's room, anchors top when content overflows */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -1096,6 +1093,7 @@ body::before {
   opacity: 0;
   transition: transform 0.85s cubic-bezier(0.32, 1.05, 0.45, 1), opacity 0.7s ease;
   will-change: transform, opacity;
+  pointer-events: auto;
 }
 .envelope-stage.visible .scroll { transform: translate3d(0,0,0) scale(1); opacity: 1; }
 
@@ -1166,19 +1164,19 @@ body::before {
     inset 0 0 0 1px rgba(140, 90, 30, 0.32),
     inset 14px 0 28px -10px rgba(140, 90, 30, 0.22),
     inset -14px 0 28px -10px rgba(140, 90, 30, 0.22);
-  transition: height 1.4s cubic-bezier(0.38, 0.05, 0.18, 1);
+  transition: height 1.5s cubic-bezier(0.38, 0.05, 0.18, 1);
   will-change: height;
 }
-.envelope-stage.lift .scroll-paper { height: 360px; }
+.envelope-stage.lift .scroll-paper { height: var(--scroll-unfurled, 540px); }
 
 .scroll-content {
-  padding: 28px 28px 26px;
+  padding: 30px 26px 26px;
   text-align: center;
   color: #5A3818;
-  font-family: 'Fraunces', serif;
+  font-family: 'Cormorant Garamond', serif;
   opacity: 0;
   transform: translate3d(0,8px,0);
-  transition: opacity 0.7s ease 0.55s, transform 0.7s ease 0.55s;
+  transition: opacity 0.8s ease 0.55s, transform 0.8s ease 0.55s;
 }
 .envelope-stage.lift .scroll-content { opacity: 1; transform: translate3d(0,0,0); }
 
@@ -1192,7 +1190,7 @@ body::before {
 .scroll-banner {
   font-family: 'Fraunces', serif;
   font-style: italic;
-  font-size: 1.55rem;
+  font-size: 1.6rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   color: #6E2A24;
@@ -1217,27 +1215,53 @@ body::before {
   color: #A06A1F;
   font-size: 0.7rem;
 }
-.scroll-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #5A3818;
-  margin: 0.35rem 0 0.55rem;
+.scroll-mark {
+  font-family: 'Fraunces', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: #8B5F2E;
+  margin: 0.3rem 0 0.1rem;
 }
 .scroll-name {
   font-family: 'Dancing Script', cursive;
-  font-size: 2.2rem;
+  font-size: 2.6rem;
   color: #6E2A24;
   text-shadow: 0 1px 0 rgba(255, 240, 200, 0.6);
-  line-height: 1;
-  margin: 0.1rem 0 0.3rem;
+  line-height: 1.05;
+  margin: 0.1rem 0 0.5rem;
+}
+.scroll-spray {
+  display: block;
+  width: 64%;
+  max-width: 180px;
+  height: auto;
+  margin: 0.2rem auto 0.7rem;
+  opacity: 0.95;
+}
+.scroll-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: #5A3818;
+  margin: 0.4rem 0 0.6rem;
+}
+.scroll-text em {
+  font-style: italic;
+  color: #6E2A24;
+  font-weight: 600;
+}
+.scroll-sign {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.15rem;
+  color: #8B5F2E;
+  margin-top: 0.45rem;
 }
 .scroll-sigil {
   font-size: 0.95rem;
   color: #A06A1F;
   letter-spacing: 0.5em;
-  margin-top: 0.4rem;
+  margin-top: 0.35rem;
 }
 
 /* Wax seal — sits over the rolled scroll, pops off on "open" */
@@ -1284,16 +1308,17 @@ body::before {
 }
 
 @media (max-width: 700px) {
-  .scroll { width: min(300px, 82vw); }
-  .scroll-banner { font-size: 1.35rem; }
-  .scroll-name { font-size: 1.95rem; }
-  .scroll-text { font-size: 0.95rem; }
-  .envelope-stage.lift .scroll-paper { height: 330px; }
+  .scroll { width: min(340px, 88vw); }
+  .scroll-banner { font-size: 1.4rem; }
+  .scroll-name { font-size: 2.3rem; }
+  .scroll-text { font-size: 1rem; line-height: 1.5; }
+  .scroll-content { padding: 26px 22px 22px; }
   .scroll-seal { width: 58px; height: 58px; margin: -29px 0 0 -29px; font-size: 1.55rem; }
 }
 @media (max-width: 380px) {
-  .scroll { width: 82vw; }
-  .envelope-stage.lift .scroll-paper { height: 310px; }
+  .scroll { width: 90vw; }
+  .scroll-content { padding: 24px 18px 20px; }
+  .scroll-spray { width: 70%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .scroll, .scroll-paper, .scroll-roller, .scroll-content, .scroll-seal {
@@ -1328,9 +1353,55 @@ body::before {
         <div class="scroll-crown">♛</div>
         <div class="scroll-banner">Royal Decree</div>
         <div class="scroll-rule"></div>
-        <p class="scroll-text">By heartfelt command,<br>this scroll is decreed for —</p>
+        <div class="scroll-mark">— for my dearest —</div>
         <div class="scroll-name">Ladoo</div>
+
+        <!-- Floral spray -->
+        <svg class="scroll-spray" viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#7A9070" stroke-width="0.7" fill="none" stroke-linecap="round">
+            <path d="M10 24 Q30 16, 60 12 Q90 16, 110 24"/>
+            <path d="M30 18 q-4 -4 -8 -3"/>
+            <path d="M90 18 q4 -4 8 -3"/>
+          </g>
+          <g fill="#9DB58A" opacity="0.85">
+            <ellipse cx="22" cy="16" rx="4" ry="1.6" transform="rotate(-30 22 16)"/>
+            <ellipse cx="98" cy="16" rx="4" ry="1.6" transform="rotate(30 98 16)"/>
+          </g>
+          <g transform="translate(60 12)">
+            <ellipse cx="0" cy="-4" rx="2.6" ry="4.5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35"/>
+            <ellipse cx="0" cy="-4" rx="2.6" ry="4.5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-4" rx="2.6" ry="4.5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-4" rx="2.6" ry="4.5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-4" rx="2.6" ry="4.5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(288)"/>
+            <circle r="1.7" fill="#FFD27A"/>
+          </g>
+          <g transform="translate(30 20)">
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3"/>
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(288)"/>
+            <circle r="1.1" fill="#FFD27A"/>
+          </g>
+          <g transform="translate(90 20)">
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3"/>
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-2.8" rx="2" ry="3.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(288)"/>
+            <circle r="1.1" fill="#E8B85C"/>
+          </g>
+        </svg>
+
+        <p class="scroll-text">
+          For the <em>prettiest</em> smile that somehow fixes my mood without even trying 🌸✨
+        </p>
+        <p class="scroll-text">
+          I hope this little effort will put a smile on your face… because the world honestly looks <em>softer</em> when you're smiling.
+        </p>
+
         <div class="scroll-rule"></div>
+        <div class="scroll-sign">— sirf tumhare liye —</div>
         <div class="scroll-sigil">✦ ✿ ✦</div>
       </div>
     </div>
@@ -1342,371 +1413,6 @@ body::before {
   </div>
 </div>
 
-<!-- ============== CARD STAGE ============== -->
-<div class="card-stage">
-  <div class="card-spread" id="cardSpread">
-
-    <!-- RIGHT PAGE: message -->
-    <div class="card-right">
-      <!-- Corner doodles -->
-      <svg class="corner-doodle tr" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 4 4 Q 8 6, 14 6 M 4 4 Q 6 8, 6 14 M 14 6 Q 20 8, 24 12 M 6 14 Q 8 20, 12 24" stroke="currentColor" stroke-width="0.7" fill="none" stroke-linecap="round"/>
-        <circle cx="14" cy="6" r="0.8" fill="currentColor"/>
-        <circle cx="6" cy="14" r="0.8" fill="currentColor"/>
-        <path d="M 4 4 Q 5 8 8 10 Q 10 11 12 8 Q 13 6 11 4 Q 9 3 8 5 Q 7 7 9 7" stroke="currentColor" stroke-width="0.5" fill="none"/>
-      </svg>
-      <svg class="corner-doodle br" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 4 4 Q 10 6, 16 8 Q 22 11, 26 16 M 4 4 Q 6 10, 8 16 Q 11 22, 16 26" stroke="currentColor" stroke-width="0.6" fill="none" stroke-linecap="round"/>
-        <circle cx="16" cy="8" r="0.7" fill="currentColor"/>
-        <circle cx="8" cy="16" r="0.7" fill="currentColor"/>
-      </svg>
-      <svg class="corner-doodle bl" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 4 4 Q 8 6, 14 6 M 4 4 Q 6 8, 6 14" stroke="currentColor" stroke-width="0.7" fill="none" stroke-linecap="round"/>
-        <circle cx="14" cy="6" r="0.8" fill="currentColor"/>
-        <circle cx="6" cy="14" r="0.8" fill="currentColor"/>
-      </svg>
-
-      <div class="message-content">
-        <div class="msg-mark">a little note</div>
-
-        <!-- Floral spray above greeting -->
-        <svg class="floral-spray top" viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g stroke="#7A9070" stroke-width="0.7" fill="none" stroke-linecap="round">
-            <path d="M10 30 Q30 22, 60 18 Q90 22, 110 30"/>
-            <path d="M30 24 q-4 -4 -8 -3"/>
-            <path d="M90 24 q4 -4 8 -3"/>
-            <path d="M60 18 q0 -6 -3 -10"/>
-            <path d="M60 18 q0 -6 3 -10"/>
-          </g>
-          <!-- leaves -->
-          <g fill="#9DB58A" opacity="0.85">
-            <ellipse cx="22" cy="22" rx="4" ry="1.6" transform="rotate(-30 22 22)"/>
-            <ellipse cx="98" cy="22" rx="4" ry="1.6" transform="rotate(30 98 22)"/>
-            <ellipse cx="55" cy="11" rx="1.6" ry="3.5"/>
-            <ellipse cx="65" cy="11" rx="1.6" ry="3.5"/>
-          </g>
-          <!-- center flower -->
-          <g transform="translate(60 16)">
-            <g>
-              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35"/>
-              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(72)"/>
-              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(144)"/>
-              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(216)"/>
-              <ellipse cx="0" cy="-5" rx="3" ry="5" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(288)"/>
-              <circle r="2" fill="#FFD27A"/>
-            </g>
-          </g>
-          <!-- side flowers -->
-          <g transform="translate(30 26)">
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3"/>
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(72)"/>
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(144)"/>
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(216)"/>
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.3" transform="rotate(288)"/>
-            <circle r="1.2" fill="#FFD27A"/>
-          </g>
-          <g transform="translate(90 26)">
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3"/>
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(72)"/>
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(144)"/>
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(216)"/>
-            <ellipse cx="0" cy="-3" rx="2" ry="3.5" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.3" transform="rotate(288)"/>
-            <circle r="1.2" fill="#E8B85C"/>
-          </g>
-        </svg>
-
-        <p class="greeting">Hey Ladoo,</p>
-        <p class="message-text">
-          For the <em>prettiest</em> smile that somehow fixes my mood without even trying 🌸✨
-        </p>
-        <p class="message-text">
-          I hope this little effort will put a smile on your face… because the world honestly looks <em>softer</em> when you're smiling.
-        </p>
-        <span class="divider-leaf"></span>
-        <span class="signature-line">sirf tumhare liye</span>
-      </div>
-    </div>
-
-    <!-- LEFT PAGE: cover → orchid -->
-    <div class="card-left">
-      <div class="card-cover">
-        <!-- Inner frame border -->
-        <div class="cover-frame"></div>
-
-        <!-- Corner flourishes -->
-        <svg class="cover-corner tl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="cornerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#E8C898"/>
-              <stop offset="50%" stop-color="#D4A574"/>
-              <stop offset="100%" stop-color="#A6814F"/>
-            </linearGradient>
-          </defs>
-          <!-- ornamental swirl -->
-          <path d="M 8 8 Q 16 8, 22 12 Q 28 16, 32 22 Q 36 28, 38 36 M 8 8 Q 8 16, 12 22 Q 16 28, 22 32 Q 28 36, 36 38" stroke="url(#cornerGrad)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
-          <path d="M 8 8 Q 12 12, 14 16 Q 16 20, 14 22 Q 12 22, 12 18" stroke="url(#cornerGrad)" stroke-width="0.6" fill="none"/>
-          <circle cx="22" cy="12" r="1" fill="url(#cornerGrad)"/>
-          <circle cx="12" cy="22" r="1" fill="url(#cornerGrad)"/>
-          <circle cx="32" cy="22" r="0.7" fill="url(#cornerGrad)"/>
-          <circle cx="22" cy="32" r="0.7" fill="url(#cornerGrad)"/>
-          <!-- tiny leaves -->
-          <ellipse cx="18" cy="9" rx="3" ry="1.5" fill="url(#cornerGrad)" opacity="0.7" transform="rotate(20 18 9)"/>
-          <ellipse cx="9" cy="18" rx="1.5" ry="3" fill="url(#cornerGrad)" opacity="0.7" transform="rotate(20 9 18)"/>
-        </svg>
-        <svg class="cover-corner tr" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 8 8 Q 16 8, 22 12 Q 28 16, 32 22 Q 36 28, 38 36 M 8 8 Q 8 16, 12 22 Q 16 28, 22 32 Q 28 36, 36 38" stroke="url(#cornerGrad)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
-          <path d="M 8 8 Q 12 12, 14 16 Q 16 20, 14 22 Q 12 22, 12 18" stroke="url(#cornerGrad)" stroke-width="0.6" fill="none"/>
-          <circle cx="22" cy="12" r="1" fill="url(#cornerGrad)"/>
-          <circle cx="12" cy="22" r="1" fill="url(#cornerGrad)"/>
-          <circle cx="32" cy="22" r="0.7" fill="url(#cornerGrad)"/>
-          <circle cx="22" cy="32" r="0.7" fill="url(#cornerGrad)"/>
-          <ellipse cx="18" cy="9" rx="3" ry="1.5" fill="url(#cornerGrad)" opacity="0.7" transform="rotate(20 18 9)"/>
-          <ellipse cx="9" cy="18" rx="1.5" ry="3" fill="url(#cornerGrad)" opacity="0.7" transform="rotate(20 9 18)"/>
-        </svg>
-        <svg class="cover-corner bl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 8 8 Q 16 8, 22 12 Q 28 16, 32 22 Q 36 28, 38 36 M 8 8 Q 8 16, 12 22 Q 16 28, 22 32 Q 28 36, 36 38" stroke="url(#cornerGrad)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
-          <path d="M 8 8 Q 12 12, 14 16 Q 16 20, 14 22 Q 12 22, 12 18" stroke="url(#cornerGrad)" stroke-width="0.6" fill="none"/>
-          <circle cx="22" cy="12" r="1" fill="url(#cornerGrad)"/>
-          <circle cx="12" cy="22" r="1" fill="url(#cornerGrad)"/>
-          <ellipse cx="18" cy="9" rx="3" ry="1.5" fill="url(#cornerGrad)" opacity="0.7" transform="rotate(20 18 9)"/>
-          <ellipse cx="9" cy="18" rx="1.5" ry="3" fill="url(#cornerGrad)" opacity="0.7" transform="rotate(20 9 18)"/>
-        </svg>
-        <svg class="cover-corner br" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 8 8 Q 16 8, 22 12 Q 28 16, 32 22 Q 36 28, 38 36 M 8 8 Q 8 16, 12 22 Q 16 28, 22 32 Q 28 36, 36 38" stroke="url(#cornerGrad)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
-          <path d="M 8 8 Q 12 12, 14 16 Q 16 20, 14 22 Q 12 22, 12 18" stroke="url(#cornerGrad)" stroke-width="0.6" fill="none"/>
-          <circle cx="22" cy="12" r="1" fill="url(#cornerGrad)"/>
-          <circle cx="12" cy="22" r="1" fill="url(#cornerGrad)"/>
-          <ellipse cx="18" cy="9" rx="3" ry="1.5" fill="url(#cornerGrad)" opacity="0.7" transform="rotate(20 18 9)"/>
-          <ellipse cx="9" cy="18" rx="1.5" ry="3" fill="url(#cornerGrad)" opacity="0.7" transform="rotate(20 9 18)"/>
-        </svg>
-
-        <!-- Tiny twinkling stars on cover -->
-        <div class="cover-stars">
-          <span class="mini-star" style="top:18%; left:25%; animation-delay: 0s;">✦</span>
-          <span class="mini-star" style="top:32%; right:22%; animation-delay: 0.7s;">✦</span>
-          <span class="mini-star" style="bottom:28%; left:20%; animation-delay: 1.2s;">✦</span>
-          <span class="mini-star" style="bottom:18%; right:28%; animation-delay: 1.8s;">✦</span>
-          <span class="mini-star" style="top:42%; left:18%; font-size:6px; animation-delay: 0.4s;">✦</span>
-          <span class="mini-star" style="top:48%; right:18%; font-size:6px; animation-delay: 1.5s;">✦</span>
-        </div>
-
-        <div class="cover-content">
-          <div class="cover-mark">— for —</div>
-          <h2>Ladoo</h2>
-          <div class="cover-ornament">✿</div>
-          <div class="cover-subtitle">open me</div>
-        </div>
-
-        <!-- Wax seal at bottom -->
-        <svg class="wax-seal" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="sealGrad" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#E8C898"/>
-              <stop offset="50%" stop-color="#C49A6A"/>
-              <stop offset="100%" stop-color="#7A5A38"/>
-            </radialGradient>
-          </defs>
-          <!-- seal disc -->
-          <circle cx="25" cy="25" r="20" fill="url(#sealGrad)" stroke="#7A5A38" stroke-width="0.5"/>
-          <!-- inner ring -->
-          <circle cx="25" cy="25" r="16" fill="none" stroke="#7A5A38" stroke-width="0.5" stroke-dasharray="2 1.5" opacity="0.5"/>
-          <!-- monogram I -->
-          <text x="25" y="32" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="20" font-weight="400" fill="#5A3F28">I</text>
-          <!-- highlight -->
-          <ellipse cx="18" cy="18" rx="6" ry="4" fill="#FFFAEE" opacity="0.3"/>
-        </svg>
-      </div>
-
-      <div class="card-inside-left">
-        <svg class="orchid-art" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <defs>
-            <radialGradient id="orchidGrad" cx="50%" cy="85%" r="80%">
-              <stop offset="0%" stop-color="#FFFFFF"/>
-              <stop offset="30%" stop-color="#F5E8F0"/>
-              <stop offset="70%" stop-color="#D8A5D0"/>
-              <stop offset="100%" stop-color="#8A4FA8"/>
-            </radialGradient>
-            <radialGradient id="orchidLip" cx="50%" cy="40%" r="70%">
-              <stop offset="0%" stop-color="#FFE08A"/>
-              <stop offset="30%" stop-color="#D88AB8"/>
-              <stop offset="70%" stop-color="#7A3F8A"/>
-              <stop offset="100%" stop-color="#3A1838"/>
-            </radialGradient>
-            <linearGradient id="stemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#5A7050"/>
-              <stop offset="100%" stop-color="#94A38C"/>
-            </linearGradient>
-            <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#A8C098"/>
-              <stop offset="55%" stop-color="#7A9070"/>
-              <stop offset="100%" stop-color="#5A7050"/>
-            </linearGradient>
-            <radialGradient id="dewdrop" cx="35%" cy="30%" r="65%">
-              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
-              <stop offset="60%" stop-color="#E8C0E0" stop-opacity="0.5"/>
-              <stop offset="100%" stop-color="#B888C0" stop-opacity="0.2"/>
-            </radialGradient>
-
-            <g id="orchidBloom">
-              <ellipse cx="-16" cy="20" rx="11" ry="19" fill="url(#orchidGrad)" stroke="#8A4FA8" stroke-width="0.35" opacity="0.95" transform="rotate(-30 -16 20)"/>
-              <ellipse cx="16" cy="20" rx="11" ry="19" fill="url(#orchidGrad)" stroke="#8A4FA8" stroke-width="0.35" opacity="0.95" transform="rotate(30 16 20)"/>
-              <ellipse cx="0" cy="-24" rx="11" ry="20" fill="url(#orchidGrad)" stroke="#8A4FA8" stroke-width="0.35"/>
-              <ellipse cx="-27" cy="-3" rx="19" ry="13" fill="url(#orchidGrad)" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(-12 -27 -3)"/>
-              <ellipse cx="27" cy="-3" rx="19" ry="13" fill="url(#orchidGrad)" stroke="#8A4FA8" stroke-width="0.35" transform="rotate(12 27 -3)"/>
-              <ellipse cx="0" cy="-26" rx="4" ry="10" fill="#FFFFFF" opacity="0.55"/>
-              <ellipse cx="-27" cy="-5" rx="10" ry="6" fill="#FFFFFF" opacity="0.55" transform="rotate(-12 -27 -5)"/>
-              <ellipse cx="27" cy="-5" rx="10" ry="6" fill="#FFFFFF" opacity="0.55" transform="rotate(12 27 -5)"/>
-              <!-- subtle veining on lateral petals -->
-              <path d="M -27 -3 Q -36 -2 -44 0" stroke="#A878B8" stroke-width="0.3" fill="none" opacity="0.4" transform="rotate(-12 -27 -3)"/>
-              <path d="M -27 -3 Q -36 -6 -44 -8" stroke="#A878B8" stroke-width="0.3" fill="none" opacity="0.4" transform="rotate(-12 -27 -3)"/>
-              <path d="M 27 -3 Q 36 -2 44 0" stroke="#A878B8" stroke-width="0.3" fill="none" opacity="0.4" transform="rotate(12 27 -3)"/>
-              <path d="M 27 -3 Q 36 -6 44 -8" stroke="#A878B8" stroke-width="0.3" fill="none" opacity="0.4" transform="rotate(12 27 -3)"/>
-              <!-- lip -->
-              <ellipse cx="-7" cy="8" rx="6" ry="9" fill="url(#orchidLip)" transform="rotate(-30 -7 8)"/>
-              <ellipse cx="7" cy="8" rx="6" ry="9" fill="url(#orchidLip)" transform="rotate(30 7 8)"/>
-              <path d="M -5 14 Q -8 22, -3 26 Q 0 28, 3 26 Q 8 22, 5 14 Q 0 11, -5 14 Z" fill="url(#orchidLip)" stroke="#3A1838" stroke-width="0.4"/>
-              <ellipse cx="0" cy="5" rx="3.2" ry="2.5" fill="#FFE08A"/>
-              <ellipse cx="0" cy="6" rx="1.5" ry="1.2" fill="#E89058"/>
-              <!-- spots -->
-              <circle cx="-2.5" cy="13" r="0.6" fill="#3A1838" opacity="0.85"/>
-              <circle cx="2.5" cy="14" r="0.6" fill="#3A1838" opacity="0.85"/>
-              <circle cx="-1" cy="17" r="0.55" fill="#3A1838" opacity="0.75"/>
-              <circle cx="1.5" cy="18" r="0.55" fill="#3A1838" opacity="0.75"/>
-              <circle cx="0" cy="20" r="0.5" fill="#3A1838" opacity="0.65"/>
-              <circle cx="-3" cy="22" r="0.4" fill="#3A1838" opacity="0.55"/>
-              <circle cx="3" cy="22" r="0.4" fill="#3A1838" opacity="0.55"/>
-              <!-- column -->
-              <path d="M -2.5 -3 Q -3 1, -2 5 L 2 5 Q 3 1, 2.5 -3 Z" fill="#FFEFC8" stroke="#D8A890" stroke-width="0.3"/>
-              <ellipse cx="0" cy="-4" rx="2.5" ry="1.5" fill="#FFE08A" stroke="#D8A890" stroke-width="0.2"/>
-              <circle cx="0" cy="1" r="0.8" fill="#A87838"/>
-            </g>
-          </defs>
-
-          <!-- background glow -->
-          <ellipse cx="160" cy="220" rx="140" ry="180" fill="#F5E8F0" opacity="0.5"/>
-
-          <!-- background botanical line texture -->
-          <g opacity="0.18" stroke="#8A4FA8" stroke-width="0.5" fill="none">
-            <path d="M 30 350 Q 40 320, 35 290 Q 28 260, 35 230"/>
-            <path d="M 270 350 Q 260 320, 265 290 Q 272 260, 265 230"/>
-            <path d="M 45 80 Q 50 70, 45 60 M 55 95 Q 60 85, 55 75"/>
-            <path d="M 255 80 Q 250 70, 255 60 M 245 95 Q 240 85, 245 75"/>
-          </g>
-
-          <!-- Strap leaves at base -->
-          <g class="leaves">
-            <path d="M 125 388 C 105 350, 78 290, 88 220 C 100 240, 110 280, 122 340 C 128 365, 130 380, 130 388 Z" fill="url(#leafGrad)" stroke="#5A7050" stroke-width="0.4" opacity="0.88"/>
-            <path d="M 162 388 C 158 340, 152 290, 160 240 C 170 280, 172 340, 170 380 Q 168 388, 165 388 Z" fill="url(#leafGrad)" stroke="#5A7050" stroke-width="0.4" opacity="0.98"/>
-            <path d="M 200 388 C 220 350, 240 290, 232 220 C 220 240, 215 280, 205 340 C 198 365, 196 380, 196 388 Z" fill="url(#leafGrad)" stroke="#5A7050" stroke-width="0.4" opacity="0.88"/>
-            <path d="M 130 388 Q 110 320, 92 235" stroke="#5A7050" stroke-width="0.4" opacity="0.5" fill="none"/>
-            <path d="M 167 388 Q 162 320, 162 245" stroke="#5A7050" stroke-width="0.4" opacity="0.5" fill="none"/>
-            <path d="M 200 388 Q 218 320, 230 235" stroke="#5A7050" stroke-width="0.4" opacity="0.5" fill="none"/>
-          </g>
-
-          <!-- Stem -->
-          <path d="M 162 380 C 152 320, 130 250, 175 175 C 215 105, 235 75, 240 50" stroke="url(#stemGrad)" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-
-          <!-- Nodes on stem -->
-          <ellipse cx="152" cy="320" rx="2" ry="1.5" fill="#7A9070"/>
-          <ellipse cx="155" cy="265" rx="1.8" ry="1.3" fill="#7A9070"/>
-          <ellipse cx="180" cy="195" rx="2" ry="1.5" fill="#7A9070"/>
-          <ellipse cx="220" cy="120" rx="1.8" ry="1.3" fill="#7A9070"/>
-
-          <!-- Top bud -->
-          <g transform="translate(240, 50) rotate(15)">
-            <path d="M 0 0 C -6 -3, -8 -14, -3 -22 C -1 -25, 1 -25, 3 -22 C 8 -14, 6 -3, 0 0 Z" fill="url(#orchidGrad)" stroke="#8A4FA8" stroke-width="0.3"/>
-            <ellipse cx="-1" cy="-15" rx="1.5" ry="6" fill="#FFFFFF" opacity="0.5"/>
-            <path d="M 0 0 L 0 8" stroke="#7A9070" stroke-width="1.2"/>
-          </g>
-
-          <g transform="translate(225, 90) rotate(-25)">
-            <path d="M 0 0 C -4 -2, -5 -11, -2 -16 C 0 -18, 2 -18, 2 -16 C 5 -11, 4 -2, 0 0 Z" fill="url(#orchidGrad)" stroke="#8A4FA8" stroke-width="0.3"/>
-            <path d="M 0 0 L 0 8" stroke="#7A9070" stroke-width="1"/>
-          </g>
-
-          <!-- BLOOM 3 (top) -->
-          <g transform="translate(208, 135) rotate(-8) scale(0.72)">
-            <use href="#orchidBloom"/>
-            <!-- dewdrops on this bloom -->
-            <ellipse cx="-15" cy="-15" rx="2.5" ry="3.2" fill="url(#dewdrop)"/>
-            <ellipse cx="12" cy="-10" rx="2" ry="2.5" fill="url(#dewdrop)"/>
-          </g>
-
-          <!-- BLOOM 2 (middle) -->
-          <g transform="translate(170, 220) rotate(8) scale(0.9)">
-            <use href="#orchidBloom"/>
-            <ellipse cx="20" cy="-18" rx="2.8" ry="3.6" fill="url(#dewdrop)"/>
-            <ellipse cx="-10" cy="-5" rx="2" ry="2.5" fill="url(#dewdrop)"/>
-            <ellipse cx="5" cy="15" rx="1.5" ry="2" fill="url(#dewdrop)"/>
-          </g>
-
-          <!-- BLOOM 1 (bottom, largest) -->
-          <g transform="translate(148, 305) rotate(-12) scale(1.05)">
-            <use href="#orchidBloom"/>
-            <ellipse cx="-22" cy="-12" rx="3" ry="3.8" fill="url(#dewdrop)"/>
-            <ellipse cx="18" cy="-20" rx="2.5" ry="3.2" fill="url(#dewdrop)"/>
-            <ellipse cx="-5" cy="-30" rx="2" ry="2.6" fill="url(#dewdrop)"/>
-          </g>
-
-          <!-- Tiny floating sparkles around orchid -->
-          <g class="sparkles" fill="#D4A574" opacity="0.55">
-            <circle cx="60" cy="160" r="1.3"/>
-            <circle cx="252" cy="190" r="1.2"/>
-            <circle cx="48" cy="260" r="1.1"/>
-            <circle cx="262" cy="280" r="1.4"/>
-            <circle cx="80" cy="120" r="1.1"/>
-            <circle cx="245" cy="155" r="1"/>
-          </g>
-
-          <!-- Mini daisies sprinkled in empty corners -->
-          <g class="mini-flowers" opacity="0.92">
-            <symbol id="miniDaisy" viewBox="-10 -10 20 20">
-              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5"/>
-              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5" transform="rotate(72)"/>
-              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5" transform="rotate(144)"/>
-              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5" transform="rotate(216)"/>
-              <ellipse cx="0" cy="-6" rx="2.6" ry="5.2" fill="#FFF6E2" stroke="#C8A878" stroke-width="0.5" transform="rotate(288)"/>
-              <circle r="2.4" fill="#E8B85C"/>
-              <circle r="1" fill="#A06A1F"/>
-            </symbol>
-            <symbol id="miniBud" viewBox="-6 -10 12 18">
-              <path d="M 0 6 C -1 0, -2 -4, 0 -8 C 2 -4, 1 0, 0 6 Z" fill="#E89AB8" stroke="#8A4FA8" stroke-width="0.35"/>
-              <path d="M 0 7 L 0 -1" stroke="#7A9070" stroke-width="0.6"/>
-              <path d="M 0 2 q 3 -1 4 -3" stroke="#7A9070" stroke-width="0.5" fill="none"/>
-            </symbol>
-            <symbol id="miniBlossom" viewBox="-10 -10 20 20">
-              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35"/>
-              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35" transform="rotate(72)"/>
-              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35" transform="rotate(144)"/>
-              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35" transform="rotate(216)"/>
-              <ellipse cx="0" cy="-5" rx="3" ry="4.5" fill="#C490D5" stroke="#5A2A6E" stroke-width="0.35" transform="rotate(288)"/>
-              <circle r="1.8" fill="#FFD27A"/>
-            </symbol>
-            <!-- top-left cluster -->
-            <use href="#miniDaisy" x="38" y="58" width="22" height="22"/>
-            <use href="#miniBud" x="22" y="92" width="14" height="22" transform="rotate(-18 29 103)"/>
-            <use href="#miniBlossom" x="58" y="86" width="16" height="16"/>
-            <!-- top-right cluster -->
-            <use href="#miniDaisy" x="238" y="50" width="20" height="20"/>
-            <use href="#miniBud" x="262" y="80" width="14" height="22" transform="rotate(20 269 91)"/>
-            <use href="#miniBlossom" x="222" y="92" width="14" height="14"/>
-            <!-- bottom-left -->
-            <use href="#miniDaisy" x="40" y="332" width="22" height="22"/>
-            <use href="#miniBlossom" x="22" y="296" width="15" height="15"/>
-            <use href="#miniBud" x="64" y="304" width="13" height="20" transform="rotate(12 70 314)"/>
-            <!-- bottom-right -->
-            <use href="#miniDaisy" x="240" y="340" width="22" height="22"/>
-            <use href="#miniBlossom" x="264" y="300" width="15" height="15"/>
-            <use href="#miniBud" x="220" y="306" width="13" height="20" transform="rotate(-12 226 316)"/>
-          </g>
-        </svg>
-
-        <!-- Cursive label below orchid -->
-        <div class="orchid-label">Phalaenopsis</div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ============== MUSIC TOGGLE ============== -->
 <button class="music-toggle" id="musicBtn">
@@ -1783,10 +1489,20 @@ const orchidInterval = setInterval(() => {
   setTimeout(() => o.remove(), 14000);
 }, isMobile ? 700 : 500);
 
-// ========== CARD OPENING ==========
+// ========== ROYAL DECREE ==========
 const openBtn = document.getElementById('openBtn');
-const cardSpread = document.getElementById('cardSpread');
 const musicBtn = document.getElementById('musicBtn');
+const envStage = document.getElementById('envelopeStage');
+
+// Measure scroll content so the paper unfurls to exactly its natural height
+function syncScrollHeight() {
+  const sc = envStage && envStage.querySelector('.scroll-content');
+  if (!sc) return;
+  document.documentElement.style.setProperty('--scroll-unfurled', (sc.scrollHeight + 4) + 'px');
+}
+syncScrollHeight();
+window.addEventListener('load', syncScrollHeight);
+window.addEventListener('resize', syncScrollHeight);
 
 openBtn.addEventListener('click', async () => {
   openBtn.disabled = true;
@@ -1802,29 +1518,27 @@ openBtn.addEventListener('click', async () => {
     welcome.querySelectorAll('.orchid-petal, .star').forEach(n => n.remove());
   }, 1500);
 
-  const envStage = document.getElementById('envelopeStage');
+  // Re-measure now that the welcome is collapsing (in case the viewport metric changed)
+  syncScrollHeight();
 
-  // Royal Decree scroll intro — GPU-only transforms
+  // Royal Decree scroll reveal — GPU-only transforms
   setTimeout(() => envStage.classList.add('visible'), 300);   // scroll scales/fades in (~0.85s)
   setTimeout(() => envStage.classList.add('open'),    1350);  // wax seal pops off (~0.75s)
   setTimeout(() => envStage.classList.add('lift'),    2100);  // paper unfurls + decree text fades in (~1.4s)
-  setTimeout(() => envStage.classList.add('gone'),    4000);  // stage fades, reveals card (~1.2s)
 
-  // Card cover flip starts as the scroll finishes fading
-  setTimeout(() => { cardSpread.classList.add('open'); }, 4400);
-
+  // Music toggle and hint appear after the scroll is fully unfurled
   setTimeout(() => {
     musicBtn.classList.add('visible');
     musicBtn.classList.add('playing');
-  }, 5650);
+  }, 3800);
   setTimeout(() => {
     const hint = document.getElementById('musicHint');
     if (hint) {
       hint.classList.add('visible');
       setTimeout(() => hint.classList.remove('visible'), 6000);
     }
-  }, 6000);
-  setTimeout(addAmbientParticles, 4900);
+  }, 4100);
+  setTimeout(addAmbientParticles, 3500);
 });
 
 function addAmbientParticles() {
